@@ -5,9 +5,8 @@ from collections import defaultdict
 from unittest.mock import mock_open
 from unittest.mock import patch
 
-from stock.utils import (
-    load_stock_data,
-)  # Replace 'your_module' with the actual module name
+from stock.utils import load_stock_data
+from stock.utils import convert_date_from_yyyymmdd_to_yyyy_mm_dd
 
 
 class TestLoadStockData(unittest.TestCase):
@@ -23,31 +22,51 @@ class TestLoadStockData(unittest.TestCase):
         expected_data = defaultdict(list)
         expected_data['AAPL'].append(
             {
-                'date': '20230801',
-                'open': '148.5',
-                'high': '150.2',
-                'low': '147.8',
-                'close': '149.7',
-                'volume': '100000',
+                'date': '2023-08-01',
+                'open': 148.5,
+                'high': 150.2,
+                'low': 147.8,
+                'close': 149.7,
+                'volume': 100000,
             }
         )
         expected_data['AAPL'].append(
             {
-                'date': '20230802',
-                'open': '150.0',
-                'high': '151.5',
-                'low': '149.8',
-                'close': '150.5',
-                'volume': '120000',
+                'date': '2023-08-02',
+                'open': 150.0,
+                'high': 151.5,
+                'low': 149.8,
+                'close': 150.5,
+                'volume': 120000,
             }
         )
 
         result = load_stock_data('dummy_path')
 
-        self.assertEqual(result, expected_data)
+        self.assertAlmostEqual(result, expected_data)
         self.assertEqual(mock_file.call_count, 1)
         self.assertEqual(mock_file.call_args[0][0], 'dummy_path')
 
 
-if __name__ == '__main__':
-    unittest.main()
+class TestConvertDate(unittest.TestCase):
+    """Test convert_date_from_yyyymmdd_to_yyyy_mm_dd function."""
+
+    def test_convert_date(self):
+        """Test convert_date_from_yyyymmdd_to_yyyy_mm_dd function."""
+        result = convert_date_from_yyyymmdd_to_yyyy_mm_dd('20230801')
+        self.assertEqual(result, '2023-08-01')
+
+    def test_convert_date_with_invalid_date(self):
+        """Test convert_date_from_yyyymmdd_to_yyyy_mm_dd function."""
+        with self.assertRaises(ValueError):
+            convert_date_from_yyyymmdd_to_yyyy_mm_dd('2023080')
+
+    def test_convert_date_with_invalid_date_format(self):
+        """Test convert_date_from_yyyymmdd_to_yyyy_mm_dd function."""
+        with self.assertRaises(ValueError):
+            convert_date_from_yyyymmdd_to_yyyy_mm_dd('202308011')
+
+    def test_convert_date_with_invalid_date_type(self):
+        """Test convert_date_from_yyyymmdd_to_yyyy_mm_dd function."""
+        with self.assertRaises(TypeError):
+            convert_date_from_yyyymmdd_to_yyyy_mm_dd('qweqweqwe')
