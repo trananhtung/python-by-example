@@ -25,7 +25,7 @@ class Market:
         return self.name
 
     def __str__(self) -> str:
-        return f'{self.name} market'
+        return f"{self.name} market"
 
     def get_all_stock_codes(self) -> list:
         """Return all stock codes."""
@@ -34,7 +34,7 @@ class Market:
     def get_stock_instance(self, code: str) -> Stock:
         """Create stock instance."""
         if code not in self.stocks:
-            raise ValueError(f'{code} does not exist in {self.name} market')
+            raise ValueError(f"{code} does not exist in {self.name} market")
         return self.stocks[code]
 
     def get_up_trend_stocks(
