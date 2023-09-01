@@ -1,6 +1,7 @@
 """Test Stock class."""
 
 import unittest
+
 from stock.stock import Stock
 
 

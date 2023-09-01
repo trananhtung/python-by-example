@@ -2,11 +2,9 @@
 
 import unittest
 from collections import defaultdict
-from unittest.mock import mock_open
-from unittest.mock import patch
+from unittest.mock import mock_open, patch
 
-from stock.utils import convert_date_from_yyyymmdd_to_yyyy_mm_dd
-from stock.utils import load_stock_data
+from stock.utils import convert_date_from_yyyymmdd_to_yyyy_mm_dd, load_stock_data
 
 
 class TestLoadStockData(unittest.TestCase):

@@ -1,6 +1,5 @@
 """Stock class for storing stock data."""
 import pandas as pd
-
 import plotly.graph_objects as go
 
 
